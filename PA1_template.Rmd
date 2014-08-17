@@ -1,20 +1,73 @@
 # Reproducible Research: Peer Assessment 1
-
+## foolszany
 
 ## Loading and preprocessing the data
 
 
+```{r}
+setwd("C:/Users/dp/Documents/GitHub/RepData_PeerAssessment1")
+activity <- read.csv("C:/Users/dp/Documents/coursera/ReproducibleResearch/activity.csv")
+head(activity)
+
+library(ggplot2)
+library(plyr)
+```
+
+## Illustrate the total number of steps per day
+
+``` {r}
+
+totalstepsday <- aggregate(steps ~ date,data=activity,sum)
+hist(totalstepsday$steps, main="Total number of steps per day", col="red")
+
+```
+
 
 ## What is mean total number of steps taken per day?
+
+``` {r}
+##mean steps per day
+stepsday <- aggregate(steps ~ date,data=activity,sum)
+
+mean(stepsday$steps, na.rm=TRUE)
+
+## median steps per day
+median(stepsday$steps, na.rm=TRUE)
+
+```
 
 
 
 ## What is the average daily activity pattern?
 
+``` {r}
+
+clean_activity <- activity[activity$steps != "NA",]
+
+
+average_act <- ddply(clean_activity, .(interval), summarise, steps = mean(steps))
+
+plot(average_act$interval, average_act$steps, type = "l", xlab = "five-minute interval", 
+    ylab = "steps", main = "Aaerage daily activity")
+
+##2.  Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+
+average_act[average_act$steps==max(average_act$steps[1:288]),]
+
+```
 
 
 ## Imputing missing values
 
+```{r}
+##total number of missing variables
+nrow(activity[is.na(activity$steps),])
+
+
+
+````
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+###not completed
